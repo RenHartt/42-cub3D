@@ -6,23 +6,13 @@
 /*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 17:42:33 by asuc              #+#    #+#             */
-/*   Updated: 2024/06/16 19:33:40 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/07/02 19:25:59 by bgoron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include.h"
 
-int	check_size(t_sprite *sprite)
-{
-	if (sprite->wall_n.width != sprite->wall_n.height
-		|| sprite->wall_s.width != sprite->wall_s.height
-		|| sprite->wall_e.width != sprite->wall_e.height
-		|| sprite->wall_w.width != sprite->wall_w.height)
-		return (print_error("Textures must be square\n"));
-	return (0);
-}
-
-void	load_texture_data(void *mlx, t_image wall_img, int *texture)
+static void	load_texture_data(void *mlx, t_image wall_img, int *texture)
 {
 	int	x;
 	int	y;
@@ -41,23 +31,34 @@ void	load_texture_data(void *mlx, t_image wall_img, int *texture)
 	}
 }
 
-void	preload_texture(t_data *data, t_image wall_img, int **texture)
+static int	preload_texture(t_data *data, t_image wall_img, int **texture)
 {
-	*texture = malloc(wall_img.width * wall_img.height * sizeof(int));
-	load_texture_data(data->mlx.mlx, wall_img, *texture);
+	*texture = malloc((unsigned int)wall_img.width
+			* (unsigned int)wall_img.height * sizeof(int));
+	if (!(*texture))
+		return (-1);
+	load_texture_data(data->graphics.mlx, wall_img, *texture);
+	return (0);
 }
 
 int	preload_textures(t_data *data)
 {
-	preload_texture(data, data->mlx.wall_sprite.wall_n,
-		&data->mlx.wall_sprite.north_texture);
-	preload_texture(data, data->mlx.wall_sprite.wall_s,
-		&data->mlx.wall_sprite.south_texture);
-	preload_texture(data, data->mlx.wall_sprite.wall_e,
-		&data->mlx.wall_sprite.east_texture);
-	preload_texture(data, data->mlx.wall_sprite.wall_w,
-		&data->mlx.wall_sprite.west_texture);
-	if (check_size(&data->mlx.wall_sprite) == -1)
+	int	alloc_error;
+
+	alloc_error = 0;
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.wall_n, \
+	&data->graphics.wall_sprite.north_texture);
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.wall_s, \
+	&data->graphics.wall_sprite.south_texture);
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.wall_e, \
+	&data->graphics.wall_sprite.east_texture);
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.wall_w, \
+	&data->graphics.wall_sprite.west_texture);
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.floor, \
+	&data->graphics.wall_sprite.floor_texture);
+	alloc_error += preload_texture(data, data->graphics.wall_sprite.ceiling, \
+	&data->graphics.wall_sprite.ceiling_texture);
+	if (alloc_error < 0)
 		return (-1);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 19:24:53 by asuc              #+#    #+#             */
-/*   Updated: 2024/06/16 17:37:35 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/07/06 15:04:48 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <stdlib.h>
 # include <time.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define WIN_WIDTH 1700
 # define WIN_HEIGHT 1080
@@ -40,11 +41,17 @@
 # define S 22
 # define D 7
 
-typedef struct s_vec2
+typedef struct s_vec2f
 {
 	float		x;
 	float		y;
-}				t_vec2;
+}				t_vec2f;
+
+typedef struct s_vec2i
+{
+	int			x;
+	int			y;
+}				t_vec2i;
 
 typedef struct s_vec2_color
 {
@@ -67,10 +74,10 @@ typedef union u_color
 
 typedef struct s_square
 {
-	t_vec2		x1;
-	t_vec2		x2;
-	t_vec2		x3;
-	t_vec2		x4;
+	t_vec2f	x1;
+	t_vec2f	x2;
+	t_vec2f	x3;
+	t_vec2f	x4;
 }				t_square;
 
 typedef enum e_status
@@ -90,17 +97,13 @@ typedef enum e_wall
 
 typedef struct s_ray
 {
-	t_vec2		pos;
-	t_vec2		dir;
+	t_vec2f	pos;
+	t_vec2f	dir;
 	float		perp_wall_dist;
-	int			map_x;
-	int			map_y;
-	int			step_x;
-	int			step_y;
-	float		side_dist_x;
-	float		side_dist_y;
-	float		delta_dist_x;
-	float		delta_dist_y;
+	t_vec2i	map;
+	t_vec2i	step;
+	t_vec2f	side_dist;
+	t_vec2f	delta_dist;
 	int			hit;
 	int			side;
 	t_wall		wall;
@@ -117,9 +120,9 @@ typedef struct s_map
 
 typedef struct s_player
 {
-	t_vec2		pos;
-	t_vec2		dir;
-	t_vec2		plane;
+	t_vec2f	pos;
+	t_vec2f	dir;
+	t_vec2f	plane;
 	float		move_speed;
 	float		rot_speed;
 }				t_player;

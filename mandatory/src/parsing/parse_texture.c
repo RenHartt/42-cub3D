@@ -6,7 +6,7 @@
 /*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 17:17:23 by bgoron            #+#    #+#             */
-/*   Updated: 2024/06/16 19:25:31 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/07/01 12:01:33 by bgoron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ static int	get_wall_texture(t_data *data, char **line)
 	return (0);
 }
 
+static int	is_valid_rgb(char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		if (ft_atoi(tmp[i]) < 0 || ft_atoi(tmp[i]) > 255)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
 static int	get_background_color(t_data *data, char **line)
 {
 	t_color	*color;
@@ -50,7 +64,7 @@ static int	get_background_color(t_data *data, char **line)
 		return (-1);
 	*line += 2;
 	tmp = ft_split(*line, ',');
-	if (!tmp || ft_ctablen(tmp) != 3)
+	if (!tmp || ft_ctablen(tmp) != 3 || is_valid_rgb(tmp) == -1)
 		return (ft_free_tab((void **)tmp));
 	(*color).a = 255;
 	(*color).r = ft_atoi(tmp[0]);
@@ -58,6 +72,12 @@ static int	get_background_color(t_data *data, char **line)
 	(*color).b = ft_atoi(tmp[2]);
 	ft_free_tab((void **)tmp);
 	return (0);
+}
+
+int	is_texture_path(char *line)
+{
+	return (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
+		|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3));
 }
 
 int	parse_texture(char **file, t_data *data)
@@ -69,8 +89,7 @@ int	parse_texture(char **file, t_data *data)
 	while (*tmp)
 	{
 		line = *tmp;
-		if (!ft_strncmp(line, "NO ", 3) || !ft_strncmp(line, "SO ", 3)
-			|| !ft_strncmp(line, "WE ", 3) || !ft_strncmp(line, "EA ", 3))
+		if (is_texture_path(line))
 		{
 			if (get_wall_texture(data, &line) == -1)
 				return (ft_free_tab((void **)file));

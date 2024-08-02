@@ -6,19 +6,19 @@
 /*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 17:15:52 by bgoron            #+#    #+#             */
-/*   Updated: 2024/06/15 16:27:40 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/07/06 16:47:08 by bgoron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_parsing.h"
 
-static void	format_map(char ***grid, t_map *map)
+static int	format_map(char ***grid, t_map *map)
 {
 	size_t	max_len;
 	char	**tmp;
 
 	if (!grid || !*grid)
-		return ;
+		return (-1);
 	max_len = 0;
 	tmp = *grid;
 	while (*tmp)
@@ -29,22 +29,34 @@ static void	format_map(char ***grid, t_map *map)
 	}
 	map->cols = max_len;
 	map->rows = tmp - *grid;
-	extand_map(*grid, max_len);
+	if (extand_map(*grid, max_len) == -1)
+		return (-1);
+	return (0);
 }
 
 int	parse_map(char **file, t_data *data)
 {
 	char	**tmp;
+	bool	has_empty_line;
 
+	has_empty_line = false;
 	tmp = file + 6;
-	while (*tmp)
+	while (**tmp == '\0')
+		(tmp)++;
+	while (*tmp && has_empty_line == false)
 	{
-		ft_extand_tab(&data->map.map, ft_strdup(*tmp));
+		if (**tmp == '\0')
+			has_empty_line = true;
+		else
+			ft_extand_tab(&data->map.map, ft_strdup(*tmp));
 		tmp++;
 	}
 	ft_free_tab((void **)file);
-	format_map(&data->map.map, &data->map);
-	return (0);
+	if (has_empty_line == true \
+	|| format_map(&data->map.map, &data->map) == -1)
+		return (-1);
+	else
+		return (0);
 }
 
 int	reset_map(char **map)

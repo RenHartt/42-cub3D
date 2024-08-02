@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 21:02:13 by bgoron            #+#    #+#             */
-/*   Updated: 2024/06/15 17:52:11 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/07/02 20:07:59 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,20 @@ void	fps_counter(void)
 	static clock_t	last_time = 0;
 	static clock_t	last_avg_time = 0;
 	static int		frame_count = 0;
-	static float	fps_sum = 0.0;
-	clock_t			current_time;
+	static float	fps_sum = 0.0f;
 	float			fps;
-	float			avg_fps;
 
-	current_time = clock();
-	fps = CLOCKS_PER_SEC / (float)(current_time - last_time);
-	last_time = current_time;
+	fps = CLOCKS_PER_SEC / (float)(clock() - last_time);
+	last_time = clock();
 	fps_sum += fps;
 	frame_count++;
-	if ((current_time - last_avg_time) >= CLOCKS_PER_SEC * 10)
+	if ((clock() - last_avg_time) >= CLOCKS_PER_SEC * 10)
 	{
-		avg_fps = fps_sum / frame_count;
-		printf("\033[1;31mAverage FPS (10s): %.2f\033[0m\n", avg_fps);
-		fps_sum = 0.0;
+		printf("\033[1;31mAverage FPS (10s): %.2f\033[0m\n", \
+		(double)(fps_sum / (float)frame_count));
+		fps_sum = 0.0f;
 		frame_count = 0;
-		last_avg_time = current_time;
+		last_avg_time = clock();
 	}
-	printf("FPS: %.2f\n", fps);
+	printf("FPS: %.2f\n", (double)fps);
 }

@@ -6,7 +6,7 @@
 /*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 17:11:56 by bgoron            #+#    #+#             */
-/*   Updated: 2024/06/15 16:26:06 by bgoron           ###   ########.fr       */
+/*   Updated: 2024/06/27 12:58:05 by bgoron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ static void	check_valid_zero(char **map, size_t i, size_t j)
 {
 	if (!i || !j || i == ft_ctablen(map) - 1 || j == ft_strlen(*map) - 1)
 		return ;
-	if ((map[i - 1][j] == '0' || map[i - 1][j] == '1' || map[i - 1][j] == '2')
-	&& (map[i + 1][j] == '0' || map[i + 1][j] == '1' || map[i + 1][j] == '2')
-	&& (map[i][j - 1] == '0' || map[i][j - 1] == '1' || map[i][j - 1] == '2')
-	&& (map[i][j + 1] == '0' || map[i][j + 1] == '1' || map[i][j + 1] == '2'))
+	if ((map[i - 1][j] == '0' || map[i - 1][j] == '1' || \
+		map[i - 1][j] == '2' || map[i - 1][j] == 'D')
+	&& (map[i + 1][j] == '0' || map[i + 1][j] == '1' || \
+		map[i + 1][j] == '2' || map[i + 1][j] == 'D')
+	&& (map[i][j - 1] == '0' || map[i][j - 1] == '1' || \
+		map[i][j - 1] == '2' || map[i][j - 1] == 'D')
+	&& (map[i][j + 1] == '0' || map[i][j + 1] == '1' || \
+		map[i][j + 1] == '2' || map[i][j + 1] == 'D'))
 		map[i][j] = '2';
 }
 
@@ -47,26 +51,26 @@ static void	set_player_dir_and_plane(char **map, int i, int j, t_player *player)
 {
 	if (map[i][j] == 'N')
 	{
-		player->dir = (t_vec2){0, -1};
-		player->plane = (t_vec2){-0.66, 0};
+		player->dir = (t_vec2f){0, -1};
+		player->plane = (t_vec2f){0.66, 0};
 	}
 	else if (map[i][j] == 'S')
 	{
-		player->dir = (t_vec2){0, 1};
-		player->plane = (t_vec2){0.66, 0};
-	}
-	else if (map[i][j] == 'W')
-	{
-		player->dir = (t_vec2){-1, 0};
-		player->plane = (t_vec2){0, 0.66};
+		player->dir = (t_vec2f){0, 1};
+		player->plane = (t_vec2f){-0.66, 0};
 	}
 	else if (map[i][j] == 'E')
 	{
-		player->dir = (t_vec2){1, 0};
-		player->plane = (t_vec2){0, -0.66};
+		player->dir = (t_vec2f){1, 0};
+		player->plane = (t_vec2f){0, 0.66};
+	}
+	else if (map[i][j] == 'W')
+	{
+		player->dir = (t_vec2f){-1, 0};
+		player->plane = (t_vec2f){0, -0.66};
 	}
 	map[i][j] = '0';
-	player->pos = (t_vec2){j + 0.5, i + 0.5};
+	player->pos = (t_vec2f){j + 0.5, i + 0.5};
 	player->move_speed = 0.05;
 	player->rot_speed = 0.05;
 }

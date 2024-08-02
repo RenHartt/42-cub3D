@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: bgoron <bgoron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 16:54:33 by asuc              #+#    #+#             */
-/*   Updated: 2024/06/14 17:04:42 by asuc             ###   ########.fr       */
+/*   Updated: 2024/06/18 19:54:32 by bgoron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	move_backward(t_player *player)
 
 void	move_right(t_player *player)
 {
-	player->pos.x += player->dir.y * player->move_speed;
-	player->pos.y -= player->dir.x * player->move_speed;
+	player->pos.x -= player->dir.y * player->move_speed;
+	player->pos.y += player->dir.x * player->move_speed;
 }
 
 void	move_left(t_player *player)
 {
-	player->pos.x -= player->dir.y * player->move_speed;
-	player->pos.y += player->dir.x * player->move_speed;
+	player->pos.x += player->dir.y * player->move_speed;
+	player->pos.y -= player->dir.x * player->move_speed;
 }
 
 void	rotate(t_player *player, float angle)
