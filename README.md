@@ -15,10 +15,10 @@ Contrôles (par défaut) :
 ![settings](img/settings.png)
 
 Fonctionnalités
-🟢 Moteur Raycasting : Calcul et affichage des murs en 3D.
-🟢 Support des textures pour les murs, le sol, et le plafond.
-🟢 Gestion de plusieurs maps grâce aux fichiers .cub.
-🟢 Système de collisions avec les murs.
+Moteur Raycasting : Calcul et affichage des murs en 3D.
+Support des textures pour les murs, le sol, et le plafond.
+Gestion de plusieurs maps grâce aux fichiers .cub.
+Système de collisions avec les murs.
 
 ![menu](img/menu.png)
 
