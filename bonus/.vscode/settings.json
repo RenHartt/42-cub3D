@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"include.h": "c",
-		"random": "c",
-		"algorithm": "c",
-		"__node_handle": "c",
-		"__locale": "c"
-	}
-}
