@@ -23,6 +23,7 @@ Fonctionnalités
 ![menu](img/menu.png)
 
 ![screen](img/screen1.png)
+![screen](img/screen2.png)
 
 Structure des fichiers
 Exemple de fichier .cub
